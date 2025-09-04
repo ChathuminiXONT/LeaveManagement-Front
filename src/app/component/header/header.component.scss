@@ -1,0 +1,104 @@
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+  
+    .header-left {
+      flex: 1 1 100%;
+      margin-bottom: 10px;
+  
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+  
+      .breadcrumb {
+        font-size: 0.8rem;
+        color: #7f8c8d;
+  
+        span:last-child {
+          color: #3498db;
+        }
+      }
+    }
+  
+    .header-right {
+      flex: 1 1 100%;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      min-width: 0; // ✅ NEW
+  
+      .notifications {
+        position: relative;
+        cursor: pointer;
+  
+        .badge {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background: #e74c3c;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.7rem;
+        }
+      }
+  
+      .search-box {
+        position: relative;
+        flex: 1 1 200px;
+        max-width: 300px;
+        min-width: 0; // ✅ NEW
+  
+        input {
+          width: 85%;
+          padding: 8px 15px 8px 35px;
+          border: 1px solid #ddd;
+          border-radius: 20px;
+          outline: none;
+  
+          &:focus {
+            border-color: #3498db;
+          }
+        }
+  
+        i {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #95a5a6;
+        }
+      }
+    }
+  
+    // 📱 Responsive
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 15px;
+  
+      .header-left,
+      .header-right {
+        flex: 1 1 100%;
+        justify-content: space-between;
+      }
+  
+      .header-right {
+        gap: 10px;
+        justify-content: flex-start;
+      }
+    }
+  }
+  

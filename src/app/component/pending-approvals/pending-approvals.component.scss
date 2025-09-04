@@ -1,0 +1,212 @@
+.pending-approvals {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+
+  .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .badge {
+      background: #e74c3c;
+      color: white;
+      border-radius: 10px;
+      padding: 3px 8px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+
+      /* Blinking animation - moved to correct location */
+      &.blink {
+        background-color: #ff4444 !important;
+        animation: blink 1.5s infinite;
+      }
+    }
+  }
+
+  .widget-content {
+    padding: 15px;
+
+    .no-requests {
+      text-align: center;
+      color: #7f8c8d;
+      font-style: italic;
+      padding: 20px;
+    }
+
+    .approval-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .approval-user {
+        display: flex;
+        align-items: center;
+        flex: 1 1 150px;
+        min-width: 150px;
+
+        .user-details {
+          h4 {
+            margin: 0;
+            font-size: 0.95rem;
+          }
+          p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+          }
+        }
+      }
+
+      .approval-details {
+        flex: 1 1 150px;
+        min-width: 150px;
+        margin: 10px 0;
+
+        .leave-type {
+          display: inline-block;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 0.8rem;
+          margin-bottom: 5px;
+          background: #f3e5f5;
+            color: #7b1fa2; 
+
+          &.casual-leave {
+            background: #e3f2fd;
+            color: #1976d2;
+          }
+          &.annual-leave {
+            background: #f3e5f5;
+            color: #7b1fa2;
+          }
+          &.medical-leave {
+            background: #ffebee;
+            color: #d32f2f;
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 0.9rem;
+        }
+      }
+
+      .approval-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        flex: 1 1 100px;
+        min-width: 100px;
+
+        button {
+          padding: 6px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 0.85rem;
+          flex: 1 1 auto;
+          min-width: 80px;
+
+          &.btn-approve {
+            background: #e8f5e9;
+            color: #2e7d32;
+            &:hover {
+              background: #c8e6c9;
+            }
+          }
+
+          &.btn-reject {
+            background: #ffebee;
+            color: #c62828;
+            &:hover {
+              background: #ffcdd2;
+            }
+          }
+        }
+      }
+    }
+
+    .view-all {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #3498db;
+      text-decoration: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .widget-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .approval-item {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .approval-user,
+      .approval-details,
+      .approval-actions {
+        flex: 1 1 100%;
+        min-width: auto;
+        margin: 5px 0;
+      }
+
+      .approval-actions {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .widget-content {
+      padding: 10px;
+
+      .approval-actions button {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+        min-width: auto;
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
+
+/* Keyframes at root level */
+@keyframes blink {
+  0%, 50% { 
+    opacity: 1; 
+  }
+  51%, 100% { 
+    opacity: 0.6; 
+  }
+}

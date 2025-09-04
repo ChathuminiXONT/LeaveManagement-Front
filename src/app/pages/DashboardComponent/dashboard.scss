@@ -1,0 +1,56 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fa;
+  overflow-x: hidden; // Prevent horizontal scroll
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden; // Prevent scroll from children
+  }
+
+  .dashboard-widgets {
+    padding: 20px;
+    flex: 1;
+
+    .widget-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+
+      > * {
+        flex: 1 1 300px;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      &:nth-child(2) {
+        > :first-child {
+          flex: 2 1 400px;
+        }
+        > :last-child {
+          flex: 1 1 250px;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Responsive override for mobile screens
+      @media (max-width: 768px) {
+        flex-direction: column;
+        > * {
+          flex: 1 1 100%;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}

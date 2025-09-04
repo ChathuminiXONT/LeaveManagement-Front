@@ -1,0 +1,36 @@
+<div class="dashboard-container">
+  <!-- <app-sidebar></app-sidebar> -->
+
+  <main class="main-content">
+    <app-header></app-header>
+
+    <!-- Show loading while checking approver status -->
+    <div *ngIf="isCheckingApproverStatus" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+
+    <div *ngIf="!isCheckingApproverStatus" class="dashboard-widgets">
+      <!-- First Row -->
+      <div class="widget-row">
+        <app-leave-balance></app-leave-balance>
+        <app-pending-approvals *ngIf="isApprover"></app-pending-approvals>
+        <app-recent-activity [class.full-width]="!isApprover"></app-recent-activity>
+      </div>
+
+      <!-- Second Row -->
+      <div class="widget-row">
+        <app-team-calendar></app-team-calendar>
+        <app-leave-statistics></app-leave-statistics>
+      </div>
+
+      <!-- Third Row -->
+      <div class="widget-row">
+        <app-quick-actions
+          (requestLeave)="onRequestLeave()"
+          (generateReport)="onGenerateReport()">
+        </app-quick-actions>
+      </div>
+    </div>
+  </main>
+</div>

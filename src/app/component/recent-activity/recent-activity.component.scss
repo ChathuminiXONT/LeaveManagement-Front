@@ -1,0 +1,98 @@
+.recent-activity {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .widget-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+
+    h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+  }
+
+  .widget-content {
+    flex: 1;
+    padding: 16px 20px;
+    overflow-y: auto;
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f1f1;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .activity-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+
+        &.approved { color: #27ae60; background: rgba(39,174,96,0.1); }
+        &.rejected { color: #c0392b; background: rgba(192,57,43,0.1); }
+        &.pending { color: #f39c12; background: rgba(243,156,18,0.1); }
+        &.suspended { color: #7f8c8d; background: rgba(127,140,141,0.1); }
+      }
+
+      .activity-details {
+        flex: 1;
+
+        p {
+          margin: 0 0 6px 0;
+          font-size: 0.95rem;
+          color: #34495e;
+        }
+
+        .activity-time {
+          font-size: 0.85rem;
+          color: #7f8c8d;
+          margin-right: 8px;
+        }
+
+        .activity-status {
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .view-all {
+      display: block;
+      text-align: center;
+      margin-top: 14px;
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+  /* Scrollbar */
+  .widget-content {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 6px;
+    }
+  }
+}

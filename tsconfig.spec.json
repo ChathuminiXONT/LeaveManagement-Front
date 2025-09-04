@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["jasmine"],
+    "esModuleInterop": true,
+    "target": "es2017"
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts",
+    "src/test.ts"
+  ],
+  "exclude": [
+    "src/**/*.worker.spec.ts"
+  ]
+}

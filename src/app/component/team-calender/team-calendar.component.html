@@ -1,0 +1,40 @@
+<div class="calendar-header">
+  <button (click)="prevMonth()">&lt;</button>
+  <h3>{{ getMonthYear() }}</h3>
+  <button (click)="nextMonth()">&gt;</button>
+</div>
+
+<div class="calendar">
+  <div
+    class="day"
+    *ngFor="let day of days"
+    [ngClass]="{
+      'today': day.isToday,
+      'same-department': isSameDepartmentLeave(day),
+      'other-department': isOtherDepartmentLeave(day)
+    }"
+    (click)="openDayDetails(day)"
+  >
+    <span class="date">{{ day.date.getDate() }}</span>
+
+    <div class="event-tooltip" *ngIf="day.leaves?.length">
+      {{ day.leaves?.length }} Leave(s)
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="leave-modal" *ngIf="selectedDay">
+  <div class="modal-content">
+    <h4>Leave Details for {{ selectedDay.date | date:'fullDate' }}</h4>
+    <ul>
+      <li *ngFor="let leave of selectedDay.leaves">
+        <strong>{{ leave.userName }}</strong><br>
+        Type: {{ leave.leaveType }}<br>
+        From: {{ leave.leaveStart | date:'shortDate' }}<br>
+        To: {{ leave.leaveEnd | date:'shortDate' }}
+      </li>
+    </ul>
+    <button (click)="closeModal()">Close</button>
+  </div>
+</div>

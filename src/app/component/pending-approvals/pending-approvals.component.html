@@ -1,0 +1,35 @@
+  <div class="widget pending-approvals"  *ngIf="isApprover">
+  <div class="widget-header">
+    <h3>Pending Approvals</h3>
+    <!-- <span class="badge">{{pendingRequests.length}}</span> -->
+  <span class="badge" [class.blink]="totalPendingCount > 0">{{totalPendingCount}}</span>
+  </div>
+  <div class="widget-content">
+    <!-- Show message when no pending requests -->
+    <div *ngIf="pendingRequests.length === 0" class="no-requests">
+      <p>No pending approval requests at this time.</p>
+    </div>
+    
+    <!-- Show approval items when there are pending requests -->
+    <div class="approval-item" *ngFor="let request of pendingRequests">
+      <div class="approval-user">
+        <div class="user-details">
+          <h4>{{request.name}}</h4>
+        </div>
+      </div>
+      <div class="approval-details">
+        <span class="leave-type" [class]="request.type.toLowerCase().replace(' ', '-')">
+         Leave Type - {{request.type}}
+        </span>
+        <p>{{request.dates}}</p>
+      </div>
+      <div class="approval-actions">
+        <button class="btn-approve" (click)="approveRequest(request)">Approve</button>
+        <button class="btn-reject" (click)="rejectRequest(request)">Reject</button>
+      </div>
+    </div>
+    
+    <!-- Show view all link only if there are requests -->
+    <a (click)="viewAllRequests()" class="view-all" *ngIf="pendingRequests.length > 0">View all pending requests</a>
+  </div>
+</div>

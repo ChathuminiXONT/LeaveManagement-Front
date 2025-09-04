@@ -1,0 +1,63 @@
+<!-- <div class="widget leave-balance">
+    <div class="widget-header">
+      <h3>Leave Balance</h3>
+      <select class="period-select" [(ngModel)]="selectedPeriod">
+        <option>This Year</option>
+        <option>Last Year</option>
+      </select>
+    </div>
+    <div class="widget-content">
+      <div class="balance-item" *ngFor="let type of leaveTypes" [class]="type.color">
+        <div class="balance-icon">
+          <i class="fas fa-{{type.icon}}"></i>
+        </div>
+        <div class="balance-info">
+          <h4>{{type.name}}</h4>
+          <p>{{type.days}} days remaining</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<div class="widget leave-balance">
+  <div class="widget-header">
+    <h3>Leave Balance</h3>
+    <span class="period-label">{{ selectedYear }}</span>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-container">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ error }}
+    </div>
+    <button class="retry-btn" (click)="retryLoad()">Retry</button>
+  </div>
+
+  <div class="widget-content" *ngIf="!isLoading && !error">
+    <div *ngIf="leaveBalanceData.length === 0" class="no-data-message">
+      <i class="fas fa-calendar-times"></i>
+      <p>No leave types found</p>
+    </div>
+
+    <div class="balance-item"
+         *ngFor="let item of leaveBalanceData"
+         [ngStyle]="{
+           'background': 'linear-gradient(135deg,' + item.lightColor1 + ' 0%,' + item.lightColor2 + ' 100%)',
+           'border-left-color': item.backgroundColor
+         }">
+
+      <div class="balance-icon" [style.color]="item.backgroundColor">
+        <i class="fas fa-{{item.icon}}"></i>
+      </div>
+
+      <div class="balance-info">
+        <h4>{{ item.name }}</h4>
+        <p>{{ item.availableDays }} days remaining</p>
+      </div>
+    </div>
+  </div>
+</div>

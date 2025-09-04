@@ -1,0 +1,199 @@
+.sidebar {
+    width: 250px;
+    height: 100vh;  
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease, transform 0.3s ease;
+    overflow: hidden;
+    z-index: 1100;
+  
+    .sidebar-header {
+      padding: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  
+      .company-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+  
+        i {
+          font-size: 1.5rem;
+        }
+        h1 {
+          margin: 0;
+          font-size: 1.2rem;
+          transition: opacity 0.3s ease;
+        }
+      }
+    }
+  
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+  
+        li {
+          a {
+            color: #ecf0f1;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: background 0.3s ease;
+  
+            &:hover {
+              background: #34495e;
+            }
+          }
+          &.active a {
+            background: #3498db;
+          }
+        }
+      }
+    }
+  
+    .sidebar-footer {
+      padding: 15px;
+      border-top: 1px solid #34495e;
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+  
+        .avatar img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+  
+        .user-info {
+          flex: 1;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+  
+          h4,
+          p {
+            margin: 0;
+            transition: opacity 0.3s ease;
+          }
+  
+          h4 {
+            font-size: 0.9rem;
+          }
+  
+          p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+          }
+        }
+  
+        .logout-btn {
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+      }
+    }
+  
+    /* Collapsed sidebar state (desktop) */
+    &.collapsed {
+      width: 60px;
+  
+      .sidebar-header .company-logo h1,
+      .sidebar-footer .user-info h4,
+      .sidebar-footer .user-info p {
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
+  
+      .sidebar-nav ul li a {
+        justify-content: center;
+        padding: 12px 10px;
+  
+        span,
+        &::after {
+          display: none;
+        }
+      }
+    }
+  
+    /* Mobile sidebar overlay */
+    @media (max-width: 768px) {
+      transform: translateX(-100%);
+      width: 250px; /* full width on mobile */
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  
+      &.open {
+        transform: translateX(0);
+      }
+  
+      &.collapsed {
+        /* On mobile, collapsed means fully expanded when open */
+        width: 250px;
+  
+        .sidebar-header .company-logo h1,
+        .sidebar-footer .user-info h4,
+        .sidebar-footer .user-info p {
+          opacity: 1;
+          pointer-events: auto;
+          width: auto;
+          height: auto;
+        }
+  
+        .sidebar-nav ul li a {
+          justify-content: flex-start;
+          padding: 12px 20px;
+  
+          span {
+            display: inline;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Backdrop for mobile sidebar */
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0; /* top:0; left:0; bottom:0; right:0 */
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1050;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .sidebar.open ~ .sidebar-backdrop {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* Disable body scroll when sidebar open */
+  body.sidebar-open {
+    overflow: hidden;
+  }
+  

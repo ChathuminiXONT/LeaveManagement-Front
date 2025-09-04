@@ -1,0 +1,131 @@
+.quick-actions {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    width: 200px; // made smaller
+    background: #fff;
+    border-radius: 6px; // slightly tighter radius
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  
+    .widget-header {
+      padding: 10px;
+      border-bottom: 1px solid #e0e0e0;
+  
+      h3 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+    }
+  
+    .widget-content {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 10px;
+  
+      .quick-action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 6px;
+        background: #f5f6fa;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  
+        &:hover,
+        &:focus-visible {
+          background: #e0e0e0;
+          transform: translateY(-1px);
+          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+          outline: none;
+        }
+  
+        i {
+          font-size: 1rem;
+          margin-bottom: 4px;
+          color: #007bff;
+        }
+  
+        span {
+          font-size: 0.72rem;
+          text-align: center;
+          color: #444;
+        }
+      }
+    }
+  
+    // Responsive: Mobile
+    @media (max-width: 480px) {
+      bottom: 12px;
+      right: 12px;
+      width: 88vw;
+      max-width: 260px;
+  
+      .widget-content {
+        grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+        gap: 8px;
+  
+        .quick-action-btn {
+          padding: 8px 5px;
+  
+          i {
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+          }
+  
+          span {
+            font-size: 0.68rem;
+          }
+        }
+      }
+  
+      .widget-header {
+        padding: 8px;
+  
+        h3 {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  
+    // Very small devices
+    @media (max-width: 320px) {
+      width: 94vw;
+  
+      .widget-content {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  
+        .quick-action-btn {
+          padding: 6px 4px;
+  
+          i {
+            font-size: 0.85rem;
+          }
+  
+          span {
+            font-size: 0.65rem;
+          }
+        }
+      }
+  
+      .widget-header {
+        padding: 6px;
+  
+        h3 {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+  

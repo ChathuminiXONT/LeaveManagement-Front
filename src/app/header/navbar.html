@@ -1,0 +1,33 @@
+<nav class="navbar" *ngIf="shouldShowNavbar()">
+  <div class="nav-left">
+    <span class="app-title">Xont LMS</span>
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/leave-apply" routerLinkActive="active">Leave Apply</a>
+    <a
+      routerLink="/leave-approval"
+      routerLinkActive="active"
+      *ngIf="showLeaveApproval()"
+    >
+      Leave Approval
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <div class="profile-info" (click)="toggleDropdown()">
+      <span class="username">Hi {{ currentUser?.userName }}</span>
+      <div class="profile-logo">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path
+            fill="white"
+            d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Dropdown -->
+    <div class="profile-dropdown" *ngIf="showDropdown">
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>

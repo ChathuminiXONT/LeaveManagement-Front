@@ -1,0 +1,30 @@
+<header class="main-header">
+  <div class="header-left">
+    <h2>{{ currentPage }}</h2>
+    <div class="breadcrumb">
+      <span>Home</span> / <span>{{ currentPage }}</span>
+    </div>
+    <nav class="header-nav">
+      <!-- Show Dashboard link always -->
+      <a (click)="navigateTo('dashboard')" [class.active]="currentPage === 'Dashboard'"></a>
+
+      <!-- Show Leave Approval ONLY if not on Dashboard -->
+      <a *ngIf="currentPage !== 'Dashboard'" 
+         (click)="navigateTo('leave-approval')" 
+         [class.active]="currentPage === 'Leave Approval'">
+         Leave Approval
+      </a>
+    </nav>
+  </div>
+
+  <!-- <div class="header-right">
+    <div class="notifications">
+      <i class="fas fa-bell"></i>
+      <span class="badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+    </div>
+    <div class="search-box">
+      <input type="text" placeholder="Search..." />
+      <i class="fas fa-search"></i>
+    </div>
+  </div> -->
+</header>

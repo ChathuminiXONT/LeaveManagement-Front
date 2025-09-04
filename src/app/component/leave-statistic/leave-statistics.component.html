@@ -1,0 +1,24 @@
+<div class="widget leave-statistics">
+    <div class="widget-header">
+      <h3>Leave Statistics</h3>
+      <select class="period-select" [(ngModel)]="selectedPeriod">
+        <option>Last 6 Months</option>
+        <option>This Year</option>
+        <option>Last Year</option>
+      </select>
+    </div>
+    <div class="widget-content">
+      <div class="statistics-chart">
+        <div class="chart-placeholder">
+          <i class="fas fa-chart-bar"></i>
+          <p>Leave statistics chart</p>
+        </div>
+      </div>
+      <div class="statistics-legend">
+        <div class="legend-item" *ngFor="let stat of statistics">
+          <span class="legend-color" [class]="stat.color"></span>
+          <span>{{stat.type}} ({{stat.percentage}}%)</span>
+        </div>
+      </div>
+    </div>
+  </div>

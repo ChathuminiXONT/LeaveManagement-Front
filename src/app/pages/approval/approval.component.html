@@ -1,0 +1,269 @@
+<div class="approval-container">
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card approved">
+      <div class="stat-number">{{ approvedCount }}</div>
+      <div class="stat-label">Approved Leave Requests</div>
+    </div>
+    <div class="stat-card rejected">
+      <div class="stat-number">{{ rejectedCount }}</div>
+      <div class="stat-label">Rejected Leave Requests</div>
+    </div>
+    <div class="stat-card pending">
+      <div class="stat-number">{{ pendingCount }}</div>
+      <div class="stat-label">Pending Leave requests</div>
+    </div>
+  </div>
+
+  <!-- Table Container -->
+  <div class="table-container">
+    <!-- Desktop Table -->
+    <div class="table-wrapper">
+      <table class="leave-table">
+        <thead>
+          <tr>
+            <th>EMPLOYEE</th>
+            <th>FROM</th>
+            <th>TO</th>
+            <th>DAYS</th>
+            <th>REASON</th>
+            <th>LEAVE TYPE</th>
+            <th>LEAVE BALANCE</th>
+            <th>STATUS</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of leaveRequests"
+         [class.insufficient-balance]="(request.leaveBalance || 0) < request.days" >
+            <td>{{ request.employee }}</td>
+            <td>{{ request.from | date:'dd MMM yyyy' }}
+             <!-- <span *ngIf="request.leaveType !== 'H'">{{ request.from | date:'dd MMM yyyy' }}</span>
+             <span *ngIf="request.leaveType === 'H'">
+              {{ request.from | date:'dd MMM yyyy' }}<br>
+                {{ getTimeFromString(request.startTime) }}
+            </span> -->
+            </td>
+            <td>{{ request.to | date:'dd MMM yyyy' }}
+              <!-- <span *ngIf="request.leaveType !== 'H'">{{ request.to | date:'dd MMM yyyy' }}</span>
+              <span *ngIf="request.leaveType === 'H'">
+                {{ request.to | date:'dd MMM yyyy' }}<br>
+                {{ getTimeFromString(request.endTime) }}
+              </span> -->
+            </td>
+            <td>{{ request.days }}</td>
+            <td>{{ request.reason }}</td>
+            <td>{{ request.leaveType || 'Casual' }}</td>
+            <td>
+              <span [class.balance-warning]="(request.leaveBalance || 0) < request.days">
+              {{ request.leaveBalance  }}
+             </span>
+            </td>
+            <td>
+             <span [class]="'status-badge ' + getStatusClass(request.status)">
+                  {{ getStatusLabel(request.status) }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button class="approve-btn" (click)="openApproveModal(request)" [disabled]="request.status !== '0'|| isOwnRequest(request)"
+    [title]="isOwnRequest(request) ? 'Cannot approve your own request' : ''">
+    <span *ngIf="!isRequestLoading(request.recID)">Approve</span>
+    <span *ngIf="isRequestLoading(request.recID) && isApprovingRequest" class="loading-content">
+    <span class="spinner"></span> Approving...
+    </span>
+    </button>
+               <button 
+    class="reject-btn" 
+    (click)="openRejectModal(request)" 
+    [disabled]="request.status !== '0' || isOwnRequest(request) || isRequestLoading(request.recID)"
+    [title]="isOwnRequest(request) ? 'Cannot reject your own request' : ''">
+    <span *ngIf="!isRequestLoading(request.recID)">Reject</span>
+    <span *ngIf="isRequestLoading(request.recID) && isRejectingRequest" class="loading-content">
+      <span class="spinner"></span> Rejecting...
+    </span>
+  </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Card Layout -->
+    <div class="mobile-card-container">
+      <div class="request-card" *ngFor="let request of leaveRequests"
+      [class.insufficient-balance]="(request.leaveBalance || 0) < request.days">
+        <div class="card-header">
+          <div class="employee-name">{{ request.employee }}</div>
+          <span [class]="'status-badge ' + getStatusClass(request.status)">
+          {{ getStatusLabel(request.status) }}
+          </span>
+        </div>
+        <div class="card-content">
+          <div class="card-field">
+            <div class="field-label">From</div>
+            <div class="field-value">{{ request.from | date:'dd MMM yyyy' }}
+             <!-- <span *ngIf="request.leaveType !== 'H'">{{ request.from | date:'dd MMM yyyy' }}</span>
+             <span *ngIf="request.leaveType === 'H'">
+              {{ request.from | date:'dd MMM yyyy' }}<br>
+              {{ getTimeFromString(request.startTime) }}
+            </span> -->
+            </div>
+          </div>
+          <div class="card-field">
+            <div class="field-label">To</div>
+            <div class="field-value">{{ request.to | date:'dd MMM yyyy' }}
+               <!-- <span *ngIf="request.leaveType !== 'H'">{{ request.to | date:'dd MMM yyyy' }}</span>
+               <span *ngIf="request.leaveType === 'H'">
+                {{ request.to | date:'dd MMM yyyy' }}<br>
+                {{ getTimeFromString(request.endTime) }} 
+              </span>-->
+            </div>
+          </div>
+          <div class="card-field">
+            <div class="field-label">Days</div>
+            <div class="field-value">{{ request.days }}</div>
+          </div>
+          <div class="card-field">
+            <div class="field-label">Leave Type</div>
+            <div class="field-value">{{ request.leaveType || 'Casual' }}</div>
+          </div>
+          <div class="card-field">
+            <div class="field-label">Leave Balance</div>
+            <div class="field-value">
+            <span [class.balance-warning]="(request.leaveBalance || 0) < request.days">
+            {{ request.leaveBalance  }}
+            </span>
+           </div>
+          </div>
+        </div>
+        <div class="card-field">
+          <div class="field-label">Reason</div>
+          <div class="field-value">{{ request.reason }}</div>
+        </div>
+        <div class="card-actions">
+          <button 
+    class="approve-btn" 
+    (click)="openApproveModal(request)" 
+    [disabled]="request.status !== '0' || isOwnRequest(request) || isRequestLoading(request.recID)"
+    [title]="isOwnRequest(request) ? 'Cannot approve your own request' : ''">
+    <span *ngIf="!isRequestLoading(request.recID)">Approve</span>
+    <span *ngIf="isRequestLoading(request.recID) && isApprovingRequest" class="loading-content">
+      <span class="spinner"></span> Approving...
+    </span>
+  </button>
+  <button 
+    class="reject-btn" 
+    (click)="openRejectModal(request)" 
+    [disabled]="request.status !== '0' || isOwnRequest(request) || isRequestLoading(request.recID)"
+    [title]="isOwnRequest(request) ? 'Cannot reject your own request' : ''">
+    <span *ngIf="!isRequestLoading(request.recID)">Reject</span>
+    <span *ngIf="isRequestLoading(request.recID) && isRejectingRequest" class="loading-content">
+      <span class="spinner"></span> Rejecting...
+    </span>
+  </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approve Modal -->
+  <div class="modal" *ngIf="showApproveModal">
+    <div class="modal-content-body">
+      <div class="request-details" *ngIf="selectedRequest">
+        <h4>Request Details:</h4>
+        <div class="detail-row">
+          <span class="label">EMPLOYEE:</span>
+          <span>{{ selectedRequest.employee }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">DURATION:</span>
+          <span>{{ selectedRequest.from | date:'dd MMM yyyy' }} - {{ selectedRequest.to | date:'dd MMM yyyy' }}</span>
+           <!-- <span *ngIf="selectedRequest.leaveType === 'H'">
+              ({{ getTimeFromString(selectedRequest.startTime) }} to {{ getTimeFromString(selectedRequest.endTime) }})
+            </span> -->
+        </div>
+        <div class="detail-row">
+          <span class="label">DAYS:</span>
+          <span>{{ selectedRequest.days }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">LEAVE TYPE:</span>
+          <span>{{ selectedRequest.leaveType }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">REASON:</span>
+          <span>{{ selectedRequest.reason }}</span>
+        </div>
+        <div class="detail-row" *ngIf="(selectedRequest.leaveBalance || 0) < selectedRequest.days">
+          <span class="label warning-label">WARNING:</span>
+          <span class="warning-text">Insufficient leave balance! Requested: {{ selectedRequest.days }} days, Available: {{ selectedRequest.leaveBalance || 0 }} days</span>
+        </div>
+      </div>
+      <div class="comment-section">
+        <label for="approveComment">Add Comment (Optional):</label>
+        <textarea id="approveComment" [(ngModel)]="approveComment" placeholder="Enter your comment here..." rows="3"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closeModals()">Cancel</button>
+        <!-- <button class="approve-btn" (click)="confirmApprove()">Approve Request</button> -->
+       <button class="approve-btn" (click)="confirmApprove()" [disabled]="isApprovingRequest">
+    <span *ngIf="!isApprovingRequest">Approve Request</span>
+    <span *ngIf="isApprovingRequest" class="loading-content">
+      <span class="spinner"></span> Processing...
+    </span>
+  </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reject Modal -->
+  <div class="modal" *ngIf="showRejectModal">
+    <div class="modal-content-body">
+      <div class="request-details" *ngIf="selectedRequest">
+        <h4>Request Details:</h4>
+        <div class="detail-row">
+          <span class="label">EMPLOYEE:</span>
+          <span>{{ selectedRequest.employee }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">DURATION:</span>
+          <span>{{ selectedRequest.from | date:'dd MMM yyyy' }} - {{ selectedRequest.to | date:'dd MMM yyyy' }}</span>
+           <!-- <span *ngIf="selectedRequest.leaveType === 'H'">
+              ({{ getTimeFromString(selectedRequest.startTime) }} to {{ getTimeFromString(selectedRequest.endTime) }})
+            </span> -->
+        </div>
+        <div class="detail-row">
+          <span class="label">DAYS:</span>
+          <span>{{ selectedRequest.days }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">LEAVE TYPE:</span>
+          <span>{{ selectedRequest.leaveType }}</span>
+        </div> 
+        <div class="detail-row">
+          <span class="label">REASON:</span>
+          <span>{{ selectedRequest.reason }}</span>
+        </div>
+         <!-- Balance Warning in Modal -->
+        <div class="detail-row" *ngIf="(selectedRequest.leaveBalance || 0) < selectedRequest.days">
+          <span class="label warning-label">WARNING:</span>
+          <span class="warning-text">Insufficient leave balance! Requested: {{ selectedRequest.days }} days, Available: {{ selectedRequest.leaveBalance || 0 }} days</span>
+        </div>
+      </div>
+      <div class="comment-section">
+        <label for="rejectComment">Add Comment (Optional):</label>
+        <textarea id="rejectComment" [(ngModel)]="rejectComment" placeholder="Enter your comment here..." rows="3"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="cancel-btn" (click)="closeModals()">Cancel</button>
+        <!-- <button class="reject-btn" (click)="confirmReject()">Reject Request</button> -->
+        <button class="reject-btn" (click)="confirmReject()" [disabled]="isRejectingRequest">
+    <span *ngIf="!isRejectingRequest">Reject Request</span>
+    <span *ngIf="isRejectingRequest" class="loading-content">
+      <span class="spinner"></span> Processing...
+    </span>
+  </button>
+      </div>
+    </div>
+  </div>
+</div>

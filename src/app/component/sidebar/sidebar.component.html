@@ -1,0 +1,34 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="company-logo">
+        <i class="fas fa-calendar-alt"></i>
+        <h1>LeaveTrack</h1>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <ul>
+        <li *ngFor="let item of menuItems" [class.active]="item.active">
+          <a [href]="item.link || '#'">
+            <i class="fas fa-{{item.icon}}"></i>
+            <span>{{item.label}}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="avatar">
+          <img [src]="user.avatar" [alt]="user.name">
+        </div>
+        <div class="user-info">
+          <h4>{{user.name}}</h4>
+          <p>{{user.role}}</p>
+        </div>
+        <button class="logout-btn">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </div>
+  </aside>

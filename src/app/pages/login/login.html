@@ -1,0 +1,49 @@
+<div class="page-wrapper">
+  <div class="login-container">
+    <h2>Xont Leave Management System</h2>
+
+    <!-- Display backend or validation errors -->
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+          email
+          #emailInput="ngModel"
+        />
+        <div class="error" *ngIf="emailInput.invalid && emailInput.touched">
+          Please enter a valid email.
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          minlength="1"
+          #passwordInput="ngModel"
+        />
+        <div class="error" *ngIf="passwordInput.invalid && passwordInput.touched">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+  </div>
+</div>

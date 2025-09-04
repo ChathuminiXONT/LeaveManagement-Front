@@ -1,0 +1,119 @@
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  padding: 12px 24px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+  font-weight: 600;
+  margin-right: 20px;
+  font-size: 1.2rem;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  
+  a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+    
+    &.active {
+      border-bottom: 2px solid white;
+    }
+  }
+}
+
+/* Profile section */
+.nav-right {
+  display: flex;
+  align-items: center;
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between text and icon */
+  }
+
+  .username {
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap; /* keep it in one line */
+  }
+
+  .profile-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+
+    svg {
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+/* ✅ Profile logo always visible, even on phone screens */
+@media (max-width: 768px) {
+  .nav-left {
+    a {
+      margin-right: 12px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .nav-right {
+    .username {
+      font-size: 12px;
+    }
+    .profile-logo {
+      display: flex !important; /* force visibility */
+    }
+  }
+}
+
+/* Dropdown */
+.profile-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  background: white;
+  color: black;
+  border-radius: 4px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+
+  button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+<div class="widget recent-activity" *ngIf="!loading; else loadingTemplate">
+  <div class="widget-header">
+    <h3>Recent Activity</h3>
+  </div>
+  <div class="widget-content">
+    <div class="activity-item" *ngFor="let activity of visibleActivities">
+      <div class="activity-icon" [class]="activity.type">
+        <i class="fas fa-{{activity.icon}}"></i>
+      </div>
+      <div class="activity-details">
+        <p>{{getMessage(activity)}}</p>
+        <span class="activity-time">{{getTime(activity)}}</span>
+        <span class="activity-status" [ngStyle]="{'color': activity.statusColor}">
+          {{activity.statusLabel}}
+        </span>
+      </div>
+    </div>
+
+    <!-- toggle link -->
+    <a href="#" (click)="toggleViewAll(); $event.preventDefault()" class="view-all">
+      {{ showAll ? 'Show less' : 'View all activity' }}
+    </a>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="widget recent-activity">
+    <div class="widget-header"><h3>Recent Activity</h3></div>
+    <div class="widget-content">
+      <p>Loading activities...</p>
+    </div>
+  </div>
+</ng-template>
