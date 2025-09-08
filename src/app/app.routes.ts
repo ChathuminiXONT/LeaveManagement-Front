@@ -11,5 +11,5 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'leave-approval', component: ApprovalComponent, canActivate: [AuthGuard] },
   { path: 'leave-apply', component: LeaveApplyComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: 'login' }
+  { path: '**', redirectTo: 'login' } // ✅ wildcard fallback
 ];
