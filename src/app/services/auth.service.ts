@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../envirnments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface LoginRequest {
   email: string;
@@ -21,29 +22,42 @@ export interface User {
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
+  private userSubject = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Load user from localStorage if exists
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      this.userSubject.next(JSON.parse(savedUser));
+    }
+  }
 
   login(request: LoginRequest): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/auth/login`, request);
+    return this.http.post<User>(`${this.apiUrl}/auth/login`, request).pipe(
+      tap(user => this.setUser(user))
+    );
   }
 
   setUser(user: User) {
     localStorage.setItem('currentUser', JSON.stringify(user));
+    this.userSubject.next(user);
   }
 
   getUser(): User | null {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    return this.userSubject.value;
   }
 
   logout() {
     localStorage.removeItem('currentUser');
+    this.userSubject.next(null);
   }
 
-  // ✅ Use backend-provided isAdmin flag
   isAdmin(): boolean {
     const user = this.getUser();
-    return user?.isAdmin === true;
+    return user?.isAdmin === true;
+  }
+
+  isLoggedIn(): boolean {
+    return this.getUser() !== null;
   }
 }
